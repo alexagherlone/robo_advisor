@@ -20,6 +20,19 @@ latest_close = tsd[latest_day]["4. close"]
 latest_close_usd = float(latest_close)
 latest_close_usd = "${0:.2f}".format(latest_close_usd)
 
+# Maximum of all high prices
+high_prices = []
+
+for date in dates:
+    high_price = tsd[date]["2. high"]
+    high_prices.append(float(high_price))
+
+
+recent_high = max(high_prices)
+recent_high_usd = float(recent_high)
+recent_high_usd = "${0:.2f}".format(recent_high_usd)
+
+
 print("-------------------------")
 print("SELECTED SYMBOL: XYZ")
 print("-------------------------")
@@ -28,7 +41,7 @@ print("REQUEST AT: 2018-02-20 02:00pm")
 print("-------------------------")
 print(f"LATEST DAY: {last_refreshed}")
 print(f"LATEST CLOSE: {latest_close_usd}")
-print("RECENT HIGH: $101,000.00")
+print(f"RECENT HIGH: {recent_high_usd}")
 print("RECENT LOW: $99,000.00")
 print("-------------------------")
 print("RECOMMENDATION: BUY!")
