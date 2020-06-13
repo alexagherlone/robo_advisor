@@ -13,6 +13,7 @@ load_dotenv()
 # Input Stock Ticker
 # Input the the value you believe the stock is worth based on your research
 
+#Validations & Inputs
 while True:
     ticker = str(input("Input Stock Ticker: "))
     #< if not
@@ -30,11 +31,25 @@ while True:
         print("Error! Please Enter a Valid Stock Price")
     else:
         break
-            
 
 api_key = os.environ.get("alpha_vantage_api_key")
 request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={ticker}&apikey={api_key}"
 response = requests.get(request_url)
+
+def return_json(request_url):
+    try:
+        response = requests.get(request_url)
+
+        # Consider any status other than 2xx an error
+        if not response.status_code // 100 == 2:
+            return "Error: Unexpected response {}".format(response)
+
+        json_obj = response.json()
+        return json_obj
+    except requests.exceptions.RequestException as e:
+        # A serious problem happened, like an SSLError or InvalidURL
+        return "Error: {}".format(e)
+
 
 parsed_response = json.loads(response.text)
 
