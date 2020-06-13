@@ -13,19 +13,19 @@ load_dotenv()
 # Input Stock Ticker
 # Input the the value you believe the stock is worth based on your research
 
-
-# while True:
-   #  try:
-      #   ticker = input("Input Stock Ticker: ")
-      #  if not re.match("^[A-Z]*$", ticker):
-      #      return(print("Error! Try Again, Maximum 5 Capital Letters (A-Z) Allowed"))
-       # elif len(ticker) > 5:
-       #     return("Error! Try Again, Maximum 5 Capital Letters (A-Z) Allowed")
-   # except
-       # pass
-
-
-value = float(input('Input Stock Expected Value: '))
+while True:
+    ticker = str(input("Input Stock Ticker: "))
+    #< if not
+    if not re.match("^[A-Z]*$", ticker):
+        print("Error! Try Again, Only Capital Letters (A-Z) Allowed")
+    elif len(ticker) > 5:
+        print("Error! Try Again, Maximum 5 Letters Allowed")
+    else:
+        try:
+            value = float(input('Input Stock Expected Value: '))
+        except ValueError:
+            print("Error! Please Enter a Valid Stock Price")
+            
 
 
 api_key = os.environ.get("alpha_vantage_api_key")
@@ -44,7 +44,7 @@ dates = list(tsd.keys())
 
 latest_day = dates[0]
 
-latest_close = tsd[latest_day]["4. close"]
+latest_close = float(tsd[latest_day]["4. close"])
 latest_close_usd = float(latest_close)
 latest_close_usd = "${0:.2f}".format(latest_close_usd)
 
@@ -98,21 +98,6 @@ import datetime
 e= datetime.datetime.now()
 date_time = e.strftime("%I:%M %p %m/%d/%Y")
 
-# Recommendation and Logic
-
-recommendation = []
-    if value > latest_close
-        print ("BUY!")
-    if value < latest_close
-        print ("DO NOT BUY!")
-
-recommendation_logic = []
-    if value > latest_close
-        print ("Stock is Undervalued Compared to Your Valuation, You Should Buy!")
-    if value < latest_close
-        print ("Stock is Overvalued Compared to Your Valuation, You Should Not Buy")
-
-
 
 print("-------------------------")
 print(f"SELECTED SYMBOL: {ticker}")
@@ -125,8 +110,16 @@ print(f"LATEST CLOSE: {latest_close_usd}")
 print(f"RECENT HIGH: {recent_high_usd}")
 print(f"RECENT LOW: {recent_low_usd}")
 print("-------------------------")
-print(f"RECOMMENDATION: {recommendation}")
-print(f"RECOMMENDATION REASON: {recommendation_logic}")
+print("RECOMMENDATION: ")
+if value > latest_close:
+        print ("BUY!")
+elif value < latest_close:
+        print ("DO NOT BUY!")
+print("RECOMMENDATION REASON:")
+if value > latest_close:
+        print ("Stock is Undervalued Compared to Your Valuation, You Should Buy!")
+elif value < latest_close:
+        print ("Stock is Overvalued Compared to Your Valuation, You Should Not Buy")
 print("-------------------------")
 print(f"WRITING DATA TO {csv_file_path}")
 print("-------------------------")
