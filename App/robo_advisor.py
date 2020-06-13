@@ -36,20 +36,17 @@ api_key = os.environ.get("alpha_vantage_api_key")
 request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={ticker}&apikey={api_key}"
 response = requests.get(request_url)
 
-def return_json(request_url):
-    try:
-        response = requests.get(request_url)
+def url_error(request_url):
+    response = requests.get(request_url)
+    response.raise_for_status()
+    return response.raw
+try:
+    request_url
 
-        # Consider any status other than 2xx an error
-        if not response.status_code // 100 == 2:
-            return "Error: Unexpected response {}".format(response)
-
-        json_obj = response.json()
-        return json_obj
-    except requests.exceptions.RequestException as e:
-        # A serious problem happened, like an SSLError or InvalidURL
-        return "Error: {}".format(e)
-
+except HTTPError as e:
+    # Need to check its an 404, 503, 500, 403 etc.
+    status_code = e.response.status_code
+    print(status_code)
 
 parsed_response = json.loads(response.text)
 
