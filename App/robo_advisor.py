@@ -21,12 +21,16 @@ while True:
     elif len(ticker) > 5:
         print("Error! Try Again, Maximum 5 Letters Allowed")
     else:
-        try:
-            value = float(input('Input Stock Expected Value: '))
-        except ValueError:
-            print("Error! Please Enter a Valid Stock Price")
-            
+        break
 
+while True:
+    try:
+        value = float(input('Input Stock Expected Value: '))
+    except ValueError:
+        print("Error! Please Enter a Valid Stock Price")
+    else:
+        break
+            
 
 api_key = os.environ.get("alpha_vantage_api_key")
 request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={ticker}&apikey={api_key}"
