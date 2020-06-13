@@ -5,12 +5,31 @@ import json
 import csv
 import os
 from dotenv import load_dotenv
+import re
 
 load_dotenv()
 
-symbol = "IBM"
+#Specify Input Stock Ticker
+# Input Stock Ticker
+# Input the the value you believe the stock is worth based on your research
+
+
+# while True:
+   #  try:
+      #   ticker = input("Input Stock Ticker: ")
+      #  if not re.match("^[A-Z]*$", ticker):
+      #      return(print("Error! Try Again, Maximum 5 Capital Letters (A-Z) Allowed"))
+       # elif len(ticker) > 5:
+       #     return("Error! Try Again, Maximum 5 Capital Letters (A-Z) Allowed")
+   # except
+       # pass
+
+
+value = float(input('Input Stock Expected Value: '))
+
+
 api_key = os.environ.get("alpha_vantage_api_key")
-request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
+request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={ticker}&apikey={api_key}"
 response = requests.get(request_url)
 
 parsed_response = json.loads(response.text)
@@ -74,19 +93,40 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
 
     })
 
+# Specify Time/Date
+import datetime
+e= datetime.datetime.now()
+date_time = e.strftime("%I:%M %p %m/%d/%Y")
+
+# Recommendation and Logic
+
+recommendation = []
+    if value > latest_close
+        print ("BUY!")
+    if value < latest_close
+        print ("DO NOT BUY!")
+
+recommendation_logic = []
+    if value > latest_close
+        print ("Stock is Undervalued Compared to Your Valuation, You Should Buy!")
+    if value < latest_close
+        print ("Stock is Overvalued Compared to Your Valuation, You Should Not Buy")
+
+
+
 print("-------------------------")
-print("SELECTED SYMBOL: IBM")
+print(f"SELECTED SYMBOL: {ticker}")
 print("-------------------------")
 print("REQUESTING STOCK MARKET DATA...")
-print("REQUEST AT: 2018-02-20 02:00pm")
+print(f"REQUEST AT: {date_time}")
 print("-------------------------")
 print(f"LATEST DAY: {last_refreshed}")
 print(f"LATEST CLOSE: {latest_close_usd}")
 print(f"RECENT HIGH: {recent_high_usd}")
 print(f"RECENT LOW: {recent_low_usd}")
 print("-------------------------")
-print("RECOMMENDATION: BUY!")
-print("RECOMMENDATION REASON: TODO")
+print(f"RECOMMENDATION: {recommendation}")
+print(f"RECOMMENDATION REASON: {recommendation_logic}")
 print("-------------------------")
 print(f"WRITING DATA TO {csv_file_path}")
 print("-------------------------")
