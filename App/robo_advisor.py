@@ -32,6 +32,17 @@ recent_high = max(high_prices)
 recent_high_usd = float(recent_high)
 recent_high_usd = "${0:.2f}".format(recent_high_usd)
 
+# Minimum of all low prices
+low_prices = []
+
+for date in dates:
+    low_price = tsd[date]["3. low"]
+    low_prices.append(float(low_price))
+
+
+recent_low = min(low_prices)
+recent_low_usd = float(recent_low)
+recent_low_usd = "${0:.2f}".format(recent_low_usd)
 
 print("-------------------------")
 print("SELECTED SYMBOL: XYZ")
@@ -42,7 +53,7 @@ print("-------------------------")
 print(f"LATEST DAY: {last_refreshed}")
 print(f"LATEST CLOSE: {latest_close_usd}")
 print(f"RECENT HIGH: {recent_high_usd}")
-print("RECENT LOW: $99,000.00")
+print(f"RECENT LOW: {recent_low_usd}")
 print("-------------------------")
 print("RECOMMENDATION: BUY!")
 print("RECOMMENDATION REASON: TODO")
