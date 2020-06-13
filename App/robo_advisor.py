@@ -4,8 +4,13 @@ import requests
 import json
 import csv
 import os
+from dotenv import load_dotenv
 
-request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=GU0UCNTUW6P7OZZC"
+load_dotenv()
+
+symbol = "IBM"
+api_key = os.environ.get("alpha_vantage_api_key")
+request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
 response = requests.get(request_url)
 
 parsed_response = json.loads(response.text)
