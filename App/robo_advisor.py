@@ -36,17 +36,16 @@ api_key = os.environ.get("alpha_vantage_api_key")
 request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={ticker}&apikey={api_key}"
 response = requests.get(request_url)
 
-def url_error(request_url):
-    response = requests.get(request_url)
-    response.raise_for_status()
-    return response.raw
-try:
-    request_url
-
-except HTTPError as e:
-    # Need to check its an 404, 503, 500, 403 etc.
-    status_code = e.response.status_code
-    print(status_code)
+def call_api(request_url):
+    try:
+        response = requests.get(request_url)
+        # this is the line that can raise HTTP error
+        response.raise_for_status()
+        return response.raw
+    except HTTPError as e:
+        # this clause is called if response.rate_for_status raises an HTTP error
+        status_code = e.response.status_code
+        print("Error! Response Failed, Cannot Find Trade Data for the Specified Stock")
 
 parsed_response = json.loads(response.text)
 
